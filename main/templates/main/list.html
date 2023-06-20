@@ -2,7 +2,7 @@
 {% block title %}Default view list{% endblock %}
 {% block content %}
 <h1>{{ls.name}}</h1>
-<form method="post" action="/{{ls.id}}">
+<form method="post" id="change" action="/{{ls.id}}">
     {% csrf_token %}
     {% for item in ls.item_set.all %}
     <div class="input-group mb-3">
@@ -17,16 +17,27 @@
         </div>
         <input type="text" value="{{item.text}}" name="text{{item.id}}" class="form-control">
         <input type="date" value="{{item.date | date:'Y-m-d'}}" name="date{{item.id}}">
+
+
+
+        <!-- <form method="post" id="delete" action="/remove/{{ls.id}}/{{item.id}}"> -->
+            <!-- {% csrf_token %} -->
+            <div class="input-group-prepend">
+                <button type="submit" , value="{{item.id}}" form="change" name="remove" class="btn btn-danger"> X </button>
+            </div>
+
     </div>
     {% endfor %}
-    <button type="submit" , name="save" , value="save" , class="btn btn-success">Save</button>
+    <div class="d-flex justify-content-end">
+        <button type="submit" name="save" value="save" form="change" class="btn btn-success">Save</button>
+    </div>
 </form>
 
-
+<br>
 <form method="post" action="/new-item/{{ls.id}}">
     {% csrf_token %}
     <div class="input-group mb-3">
-        <input type="text" , name="new">
+        <input type="text" name="new" class="form-control">
         <input type="date" , name="set_date">
 
         <div class="input-group-prepend">

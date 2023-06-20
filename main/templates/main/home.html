@@ -5,22 +5,26 @@ Home title
 {% block content %}
 <h1>Home page</h1>
 <p>Upcoming events:</p>
+        {% if are_incoming %}
+            {% for td in user.todolist.all %}
+                    <p><a href="/{{td.id}}">{{td.name}}</a></p>
 
-    {% for td in user.todolist.all %}
-        <p><a href="/{{td.id}}">{{td.name}}</a></p>
-        {% for item in td.item_set.all %}
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    {% if item.complete == False%} 
-                    <!-- and item.date and item.date < date|date:"Y-m-d"  -->
-                        <input type="text", value="{{item.text}}" class="form-control">
-                        <input type="date", value="{{item.date}}" class="form-control">
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    {% endfor %}
+                    {% for item in td.item_set.all %}
+                        {% if item.complete == False and item.date %} 
+                            {% if item.is_past_due %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{item.text}}
+                                    {{item.date}}
+                                </div>
+                            {% elif item.is_close_to_due %}
+                                <div class="alert alert-warning" role="alert">
+                                    {{item.text}}
+                                    {{item.date}}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+            {% endfor %}
+        {% endif %}
 
 {% endblock %}

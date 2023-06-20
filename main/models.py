@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date, timedelta
+
 # Create your models here.
 # po edycji tego trzeba zrobi make migrations
 
@@ -21,3 +23,13 @@ class Item(models.Model):
 
     def __str__(self):
         return self.text
+
+    @property
+    def is_past_due(self):
+        return date.today() > self.date
+
+    @property
+    def is_close_to_due(self):
+        return (date.today() - self.date).days in {0,1}
+    
+    

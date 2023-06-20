@@ -19,6 +19,12 @@ from rest_framework.permissions import DjangoModelPermissions
 #                 print("tutaj")
 #                 return Item.objects.all()
 
+def remove_item(item_id):
+        # print(f"ls id:{ls_id}, item id:{item_id}")
+        Item.objects.filter(id=item_id).delete()
+        # return redirect(to=f"/{ls_id}")
+
+
 def new_item(response,id):
         ls = ToDoList.objects.get(id=id)
 
@@ -27,50 +33,51 @@ def new_item(response,id):
 
         if len(txt) > 0:
                 if dt:
-                        ls.item_set.create(text=txt, complete=False,date=dt)
+                        ls.item_set.create(text=txt, complete=False, date=dt)
                 else:
                         ls.item_set.create(text=txt, complete=False)
         else:
                 print("invalid")
         return redirect(to=f"/{id}")
-
-        # return render(response,"main/list.html",{"ls":ls})
-
-        
+#<!-- {% if td.item_set.filter(complete=False).count>0 %} -->
 def index(response, id):
         ls = ToDoList.objects.get(id=id)
 
-        if ls in response.user.todolist.all():
-                if response.method == "POST":
-                        print(response.POST)
-                        if response.POST.get("save"):
-                                for item in ls.item_set.all():
-                                        if response.POST.get("c"+str(item.id)) == "clicked":
-                                                item.complete = True
-                                        else:
-                                                item.complete = False
-                                        
-                                        text = response.POST.get("text" + str(item.id))
-                                        print(text)
-                                        if text:
-                                                item.text = text
-
-                                        date = response.POST.get("date" + str(item.id))
-                                        if date:
-                                                item.date = date
-  
-                                        item.save()
+        if ls in response.user.todolist.all() and response.method == "POST":
+                if response.POST.get("save"):
+                        for item in ls.item_set.all():
+                                if response.POST.get("c"+str(item.id)) == "clicked":
+                                        item.complete = True
+                                else:
+                                        item.complete = False
                                 
+                                text = response.POST.get("text" + str(item.id))
+                                if text:
+                                        item.text = text
+
+                                date = response.POST.get("date" + str(item.id))
+                                if date:
+                                        item.date = date
+                                
+                                
+                                item.save()
+                else:
+                        print()
+                        Item.objects.filter(id=int(response.POST.get("remove"))).delete()
 
 
-                # item = ls.item_set.get(id=1)
-                return render(response,"main/list.html",{"ls":ls})
-        return render(response,"main/view.html",{})
-
-        # return HttpResponse("<h1>%s</h1><br></br><p>%s</p>" %(ls.name, str(item.text)))
+        return render(response,"main/list.html",{"ls":ls})
+        # return render(response,"main/view.html",{})
 
 def home(response):
-        return render(response,"main/home.html",{})
+        lists = ToDoList.objects.filter(user=response.user.id)
+        are_incoming = False
+        for ls in lists:
+                if ls.item_set.filter(complete=False).count() > 0:
+                        are_incoming = True
+                        break
+        
+        return render(response,"main/home.html",{"are_incoming":are_incoming})
 
 def create(response):
         if response.method == "POST":
@@ -89,6 +96,3 @@ def create(response):
 
 def view(response):
         return render(response,"main/view.html",{})
-
-# def v1(response):
-#     return HttpResponse("<h1>View 1</h1>")

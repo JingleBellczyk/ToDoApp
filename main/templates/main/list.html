@@ -1,38 +1,37 @@
 {% extends "main/base.html" %}
 {% block title %}Default view list{% endblock %}
 {% block content %}
-    <h1>{{ls.name}}</h1>
-    <form method="post" action="#">
-        {% csrf_token %}
-        {% for item in ls.item_set.all %}
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    {% if item.complete == True %}
-                        <input type="checkbox" value="clicked" name="c{{item.id}}" checked>
-                    {% else %}
-                        <input type="checkbox" value="clicked" name="c{{item.id}}">
-                    {% endif %}
-                </div>
-            </div>
-            <input type="text" value="{{item.text}}" name="text{{item.id}}" class="form-control">
-            <input type="date" value="{{item.date | date:'Y-m-d'}}" name="date{{item.id}}">
-        </div>
-        {% endfor %}
-        <button type="submit", name="save", value="save", class="btn btn-success">Save</button>
-    </form>
-    
-
-    <form method="post" action="#">
-        {% csrf_token %}
-
-        <div class="input-group mb-3">
-            <input type="text", name="new">
-            <input type="date", name="set_date">
-
-            <div class="input-group-prepend">
-                <button type="submit", name="newItem", value="newItem", class="btn btn-success">Add item</button>
+<h1>{{ls.name}}</h1>
+<form method="post" action="/{{ls.id}}">
+    {% csrf_token %}
+    {% for item in ls.item_set.all %}
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                {% if item.complete == True %}
+                <input type="checkbox" value="clicked" name="c{{item.id}}" checked>
+                {% else %}
+                <input type="checkbox" value="clicked" name="c{{item.id}}">
+                {% endif %}
             </div>
         </div>
-    </form>
+        <input type="text" value="{{item.text}}" name="text{{item.id}}" class="form-control">
+        <input type="date" value="{{item.date | date:'Y-m-d'}}" name="date{{item.id}}">
+    </div>
+    {% endfor %}
+    <button type="submit" , name="save" , value="save" , class="btn btn-success">Save</button>
+</form>
+
+
+<form method="post" action="/new-item/{{ls.id}}">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input type="text" , name="new">
+        <input type="date" , name="set_date">
+
+        <div class="input-group-prepend">
+            <button type="submit" , name="newItem" , value="newItem" , class="btn btn-success">Add item</button>
+        </div>
+    </div>
+</form>
 {% endblock %}

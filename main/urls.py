@@ -8,5 +8,6 @@ urlpatterns = [
     path("",views.home, name="home"),
     path("create/",views.create, name="create"),
     path('view/',views.view, name="create"),
+    path("new-item/<int:id>",views.new_item, name="new-item")
     # path("update/<int:id>",views.ItemView.as_view(),name="update")
 ]

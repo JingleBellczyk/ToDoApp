@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import ToDoList, Item
 from .forms import CreateNewList
@@ -19,8 +19,24 @@ from rest_framework.permissions import DjangoModelPermissions
 #                 print("tutaj")
 #                 return Item.objects.all()
 
+def new_item(response,id):
+        ls = ToDoList.objects.get(id=id)
 
+        txt = response.POST.get("new")
+        dt = response.POST.get("set_date")
 
+        if len(txt) > 0:
+                if dt:
+                        ls.item_set.create(text=txt, complete=False,date=dt)
+                else:
+                        ls.item_set.create(text=txt, complete=False)
+        else:
+                print("invalid")
+        return redirect(to=f"/{id}")
+
+        # return render(response,"main/list.html",{"ls":ls})
+
+        
 def index(response, id):
         ls = ToDoList.objects.get(id=id)
 
@@ -45,19 +61,7 @@ def index(response, id):
   
                                         item.save()
                                 
-                        elif response.POST.get("newItem"):
-                                txt = response.POST.get("new")
-                                dt = response.POST.get("set_date")
-                                if dt:
-                                        if len(txt) > 0:
-                                                ls.item_set.create(text=txt, complete=False,date=dt)
-                                        else:
-                                                print("invalid")
-                                else:
-                                        if len(txt) > 0:
-                                                ls.item_set.create(text=txt, complete=False)
-                                        else:
-                                                print("invalid")
+
 
                 # item = ls.item_set.get(id=1)
                 return render(response,"main/list.html",{"ls":ls})

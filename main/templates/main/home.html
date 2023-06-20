@@ -12,7 +12,8 @@ Home title
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <div class="input-group-text">
-                    {% if item.complete == False and item.date and item.date < date|date:"Y-m-d" %}
+                    {% if item.complete == False%} 
+                    <!-- and item.date and item.date < date|date:"Y-m-d"  -->
                         <input type="text", value="{{item.text}}" class="form-control">
                         <input type="date", value="{{item.date}}" class="form-control">
                     {% endif %}

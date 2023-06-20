@@ -8,15 +8,16 @@ from .serializers import ItemSerializer
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import DjangoModelPermissions
 
-class ItemView(RetrieveAPIView):
-        http_method_names = ["get","patch"]
-        permission_classes = [DjangoModelPermissions]
-        serializer_class = ItemSerializer
+# class ItemView(RetrieveAPIView):
+#         http_method_names = ["get","patch"]
+#         permission_classes = [DjangoModelPermissions]
+#         serializer_class = ItemSerializer
 
-        lookup_field = "id"
-        
-        def get_queryset(self):
-                return Item.objects.all()
+#         lookup_field = "id"
+                
+#         def get_queryset(self):
+#                 print("tutaj")
+#                 return Item.objects.all()
 
 
 
@@ -34,6 +35,7 @@ def index(response, id):
                                                 item.complete = False
                                         
                                         text = response.POST.get("text" + str(item.id))
+                                        print(text)
                                         if text:
                                                 item.text = text
 

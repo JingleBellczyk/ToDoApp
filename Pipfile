@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+crispy-bootstrap4 = "*"
+django = "==4.2.2"
+djangorestframework = "==3.14.0"
+django-crispy-forms = "*"
+tzdata = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

@@ -1,9 +1,12 @@
 {% extends "main/base.html" %}
-{% block title %}Default view list{% endblock %}
+{% block title %}View list{% endblock %}
 {% block content %}
-<h1>{{ls.name}}</h1>
 <form method="post" id="change" action="/{{ls.id}}">
     {% csrf_token %}
+    <div class="input-group mb-3">
+        <input type="text" value="{{ls.name}}" name="list_name" class="form-control" style="width: 250px; font-size: 20px;">
+    </div>
+
     {% for item in ls.item_set.all %}
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -16,15 +19,23 @@
             </div>
         </div>
         <input type="text" value="{{item.text}}" name="text{{item.id}}" class="form-control">
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+
         <input type="date" value="{{item.date | date:'Y-m-d'}}" name="date{{item.id}}">
 
-
-
-        <!-- <form method="post" id="delete" action="/remove/{{ls.id}}/{{item.id}}"> -->
-            <!-- {% csrf_token %} -->
-            <div class="input-group-prepend">
-                <button type="submit" , value="{{item.id}}" form="change" name="remove" class="btn btn-danger"> X </button>
-            </div>
+        <div class="input-group-prepend">
+            <button type="submit" , value="{{item.id}}" form="change" name="remove" class="btn btn-danger"> X </button>
+        </div>
 
     </div>
     {% endfor %}

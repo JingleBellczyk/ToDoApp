@@ -39,13 +39,18 @@ def new_item(response,id):
         else:
                 print("invalid")
         return redirect(to=f"/{id}")
-#<!-- {% if td.item_set.filter(complete=False).count>0 %} -->
+
 def index(response, id):
         ls = ToDoList.objects.get(id=id)
+        print("cis")
 
         if ls in response.user.todolist.all() and response.method == "POST":
                 if response.POST.get("save"):
+                        list_name = response.POST.get("list_name")
+                        ls.name = list_name
+
                         for item in ls.item_set.all():
+                                print(item.date)
                                 if response.POST.get("c"+str(item.id)) == "clicked":
                                         item.complete = True
                                 else:
@@ -62,7 +67,6 @@ def index(response, id):
                                 
                                 item.save()
                 else:
-                        print()
                         Item.objects.filter(id=int(response.POST.get("remove"))).delete()
 
 
@@ -95,4 +99,8 @@ def create(response):
       
 
 def view(response):
+        print(response.POST.get("remove"))
+        if response.POST.get("remove"):
+                ToDoList.objects.filter(id=int(response.POST.get("remove"))).delete()
+
         return render(response,"main/view.html",{})

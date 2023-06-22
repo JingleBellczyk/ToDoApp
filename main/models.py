@@ -6,6 +6,8 @@ from datetime import date, timedelta
 # po edycji tego trzeba zrobi make migrations
 
 #tworzymy model
+
+
 class ToDoList(models.Model):
     #definiujemy atrybuty
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todolist",null=True)

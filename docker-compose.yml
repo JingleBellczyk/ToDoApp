@@ -5,6 +5,7 @@ services:
       - /bin/bash
       - -c
       - |
-        pipenv install --dev
+        pipenv install --dev \
+        && pipenv run python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"

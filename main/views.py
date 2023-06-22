@@ -29,10 +29,8 @@ def index(response, id):
         if ls in response.user.todolist.all() and response.method == "POST":
                 if response.POST.get("save"):
                         list_name = response.POST.get("list_name")
-                        print(ls.name)
                         ls.name = list_name
                         ls.save()
-                        print(ls.name)
                         for item in ls.item_set.all():
                                 if response.POST.get("c"+str(item.id)) == "clicked":
                                         item.complete = True
@@ -75,8 +73,7 @@ def create(response):
                        t = ToDoList(name=n)
                        t.save()
                        response.user.todolist.add(t)
-
-                return HttpResponseRedirect("/%i" %t.id) #przekierowanie do strony z id tej listy
+                       return HttpResponseRedirect("/%i" %t.id) #przekierowanie do strony z id tej listy
         else:
                 form = CreateNewList()
         return render(response,"main/create.html",{"form":form})

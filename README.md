@@ -3,7 +3,7 @@
 
 to build an image:
 ```
-docker build -t todoapp_image .
+docker build -t todoapp_image . 
 ```
 to run the container:
 ```
@@ -21,7 +21,10 @@ push image to dockerhub
 ```
  docker push jinglebellczyk/todo_app
 ```
-
+delete images
+```
+docker system prune --all 
+```
 ## UI
 open web UI:
 ```

@@ -2,19 +2,14 @@
 {% block title %}Create{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    <h3>Choose name of list:</h3>
-        <form method="post" actions="/create/" class="form-group">
-            {% csrf_token %}
-            <div class="input-group mb-3">
-                {{form.name}}
-                <div class="input-group-prepend">
-                    <button type="submit", name="save" class="btn btn-success">Create New</button>
-                </div>
-            </div>
-        </form>
-{% else %}
-    <p>You're not logged in. Log in <a href="/login"> here</a></p>
-{% endif %}
+<h3>Choose name of list:</h3>
+<form method="post" actions="/create/" class="form-group">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        {{form.name}}
+        <div class="input-group-prepend">
+            <button type="submit" , name="save" class="btn btn-success">Create New</button>
+        </div>
+    </div>
+</form>
 {% endblock %}
-

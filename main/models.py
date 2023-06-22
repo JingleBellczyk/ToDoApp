@@ -2,11 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import date, timedelta
 
-# Create your models here.
-# po edycji tego trzeba zrobi make migrations
-
-#tworzymy model
-
 
 class ToDoList(models.Model):
     #definiujemy atrybuty
@@ -17,10 +12,9 @@ class ToDoList(models.Model):
         return self.name
     
 class Item(models.Model):
-    #insacja ToDoList, jesli usuniemy klasę ToDoList, usuwamy tez te linijkę:
-    todolist = models.ForeignKey(ToDoList, on_delete=models.CASCADE)
-    text = models.CharField(max_length=300) #text todo listy 
-    complete = models.BooleanField() #czy skoczyliśmy item na todolist
+    todolist = models.ForeignKey(ToDoList, on_delete=models.CASCADE) #cascade deleting(delete list->delete all elems)
+    text = models.CharField(max_length=300)
+    complete = models.BooleanField()
     date = models.DateField(blank=True, null=True)
 
     def __str__(self):

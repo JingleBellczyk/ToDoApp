@@ -4,11 +4,11 @@ Home
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-    <h1>Home</h1>
-    <h4>Incomplete lists:</h4>
+    <h4>Hello {{user.username}}!</h4>
+    <h4>Your incomplete lists:</h4>
             {% if are_incoming %}
                 {% for td in user.todolist.all %}
-                        <p><a href="/{{td.id}}">{{td.name}}</a></p>
+                        <p style="font-size:20px"><a href="/{{td.id}}">{{td.name}}</a></p>
 
                         {% for item in td.item_set.all %}
                             {% if item.complete == False and item.date %} 
@@ -27,9 +27,15 @@ Home
                         {% endfor %}
                 {% endfor %}
             {% else %}
-            No tasks :)
+            <p style="font-size:20px">No incomplete lists :)</p>
             {% endif %}
 {% else %}
-    <p>You're not logged in. Log in <a href="/login"> here</a></p>
+    <h5>
+        This is app where you can create your to-do-lists, add to them tasks, modify the tasks, set date and completion of them.<br>
+        You will be notificated about belated or approaching tasks.<br>
+    </h5>
+    <br>
+    <p style="font-size:20px">You're not logged in. Log in <a href="/login"> here</a></p>
+    <p style="font-size:20px">Don't have an account? <a href="/register">Register</a></p>
 {% endif %}
 {% endblock %}

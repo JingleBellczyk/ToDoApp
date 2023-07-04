@@ -1,3 +1,10 @@
+## ToDoList - App
+
+App for making to-do lists.  
+After registration you can create lists, mark tasks as completed or edit date of them.   
+Back-end is wrote in **Python** with **Django**, front-end in **html**.
+
+# Set-up
 ## Docker
 [DockerHub](https://hub.docker.com/r/jinglebellczyk/todo_app)
 
@@ -9,7 +16,7 @@ to run the container:
 ```
 docker compose run app
 ```
-to enter the containe
+to enter the container
 ```
 docker exec -it app bash
 ```
